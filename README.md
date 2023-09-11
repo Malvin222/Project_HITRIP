@@ -87,7 +87,9 @@
 
    ## 트러블 슈팅
    
-
+   ## 하이미디어 학원 구리점 최우수상 수상
+  
+  <p align="center"><img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/6cbfbeb6-5620-4416-ac66-03537b308a25" width="500"></p>
 
 
 
