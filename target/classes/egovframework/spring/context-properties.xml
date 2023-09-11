@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<bean name="propertiesService" class="org.egovframe.rte.fdl.property.impl.EgovPropertyServiceImpl" destroy-method="destroy">
+		<property name="properties">
+	        <map>
+				<entry key="pageUnit" value="10"/>
+	        	<entry key="pageSize" value="10"/>
+	        	<entry key="Globals.fileStorePath" value="C:/Project1.1/hiTripworkspace-1.1/Project_HITRIP/src/main/webapp/tripImage"/>
+	        	<entry key="Globals.fileStorePath2" value="C:/Project1.1/hiTripworkspace-1.1/Project_HITRIP/src/main/webapp/reviewImage"/>
+	        	<entry key="Globals.fileStorePath3" value="C:/Project1.1/hiTripworkspace-1.1/Project_HITRIP/src/main/webapp/packreviewImage"/>
+				<entry key="Globals.fileStorePath4" value="C:/Project1.1/hiTripworkspace-1.1/Project_HITRIP/src/main/webapp/prtImage"/>
+	        </map>
+		</property>
+	</bean>
+	
+</beans>	

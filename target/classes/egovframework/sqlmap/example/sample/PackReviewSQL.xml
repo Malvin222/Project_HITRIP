@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PackReviewSpace">
+
+	<typeAlias  alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
+	<typeAlias  alias="packreviewVO" type="egov.hitrip.service.PackReviewVO"/>
+
+	<!-- 패키지 여행 후기 예약목록 -->
+	<select id="packReviewDAO.selectPackReserve" resultClass="EgovMap">
+			SELECT PACKUNQ
+			,USERID
+			,PACKTITLE
+			,TO_CHAR(PACKSDATE,'yyyy-mm-dd') PACKSDATE
+			,TO_CHAR(PACKEDATE,'yyyy-mm-dd') PACKEDATE
+			,PACKLOC 
+					FROM TBL_PACK_RESERVE 
+				WHERE USERID='$userid$'
+	</select>
+	<!-- 패키지 여행후기 저장 -->
+	<insert id="packReviewDAO.insertPakcReviewSave">
+		INSERT INTO TBL_BOARD_PACK_REVIEW (
+				PACKREVIEWUNQ
+				,USERID
+				,PACKREVIEWTITLE
+				,PACKREVIEWPASS
+				,PACKREVIEWRDATE
+				,PACKREVIEWCONTENT
+				,PACKTITLE
+				,PACKREVIEWSRC1
+				,PACKREVIEWSRC2
+				,PACKUNQ
+				)
+			VALUES(
+				TBL_BOARD_PACK_REVIEW_SEQ.NEXTVAL
+				,'$userid$'
+				,'$packreviewtitle$'
+				,'$packreviewpass$'
+				,sysdate
+				,'$packreviewcontent$'
+				,'$packtitle$'
+				,'$packreviewsrc1$'
+				,'$packreviewsrc2$'
+				,'$packunq$'
+			)
+	</insert>
+	<!-- 패키지후기 목록 출력 -->
+	<select id="packReviewDAO.selectPackReview" resultClass="EgovMap">
+		SELECT  DISTINCT
+			RES.PACKUNQ
+            ,RES.PACKTITLE
+            ,RES.PACKLOC
+            ,REV.PACKREVIEWTITLE
+            ,REV.USERID
+            ,TO_CHAR(REV.PACKREVIEWRDATE,'yyyy-mm-dd') PACKREVIEWRDATE
+            ,REV.PACKREVIEWHITS 
+            ,PACKREVIEWUNQ 
+        FROM  TBL_BOARD_PACK_REVIEW REV, TBL_PACK_RESERVE RES
+         WHERE REV.PACKUNQ = RES.PACKUNQ AND REV.USERID =RES.USERID AND
+         	1=1
+			<isNotNull property="searchCondition">
+	  		<isNotEmpty property="searchCondition">
+	    		AND $searchCondition$ LIKE '%$searchKeyword$%'
+      		</isNotEmpty>
+			</isNotNull>
+         ORDER BY PACKREVIEWRDATE DESC
+	</select>
+	<!-- 패키지후기 조회수 증가 -->
+	<update id ="packReviewDAO.updatePackReviewHits" >
+		UPDATE TBL_BOARD_PACK_REVIEW SET PACKREVIEWHITS=PACKREVIEWHITS+1 WHERE PACKREVIEWUNQ=#packreviewunq#
+	</update>
+	<!-- 패키지후기 목록 토탈 -->
+	<select id="packReviewDAO.selectPackReviewTotal" resultClass="int">
+		SELECT  COUNT(*) FROM  TBL_BOARD_PACK_REVIEW REV, TBL_PACK_RESERVE RES 
+			WHERE 1=1 AND REV.PACKUNQ = RES.PACKUNQ 
+				AND REV.USERID = RES.USERID
+	</select>
+	
+	<!-- 패키지후기 디테일 -->
+	<select id="packReviewDAO.selectPackReviewDetail" resultClass="PackReviewVO">
+		SELECT  DISTINCT  rev.USERID
+		        ,PACKREVIEWTITLE
+		        ,PACKREVIEWPASS
+		        ,TO_CHAR (PACKREVIEWRDATE,'yyyy-mm-dd') PACKREVIEWRDATE
+		        ,PACKREVIEWCONTENT
+		        ,PACKREVIEWSRC1
+		        ,PACKREVIEWHITS
+		        ,PACKREVIEWSTAR
+		        ,rev.PACKTITLE
+		        ,PACKREVIEWSRC2
+		        ,rev.PACKUNQ
+		        ,PACKREVIEWUNQ
+		        ,TO_CHAR (PACKSDATE,'yyyy-mm-dd') PACKSDATE
+		        ,TO_CHAR (PACKEDATE,'yyyy-mm-dd') PACKEDATE
+		        ,PACKLOC
+		    FROM TBL_BOARD_PACK_REVIEW REV ,tbl_pack_reserve res
+		        WHERE rev.packunq = res.packunq 
+		        		and 
+		        	rev.PACKREVIEWUNQ = '$packreviewunq$'
+	</select>
+	<!-- 리뷰 수정 -->
+	<update id="packReviewDAO.updatePackReviewSave">
+		UPDATE TBL_BOARD_PACK_REVIEW SET 
+					PACKREVIEWTITLE     = #packreviewtitle#
+					,PACKREVIEWCONTENT  = #packreviewcontent#
+					,PACKREVIEWSRC1     = #packreviewsrc1#
+					,PACKREVIEWSRC2     = #packreviewsrc2#
+				WHERE
+				PACKREVIEWUNQ 		  = #packreviewunq#
+	</update>
+	<!-- 리뷰 삭제 -->
+	<delete id="packReviewDAO.deletePackReview">
+		DELETE FROM TBL_BOARD_PACK_REVIEW WHERE PACKREVIEWUNQ='$packreviewunq$'
+	</delete>
+	
+	 	<!-- 여행 리뷰 댓글 리스트 select -->
+ 	<select id="packReviewDAO.selectPackReviewCm" resultClass="egovMap">
+			SELECT  CMUNQ
+					,USERID
+  				    ,PACKREVIEWCMCONTENT
+				    ,TO_CHAR(PACKREVIEWCMRDATE,'yyyy-mm-dd') PACKREVIEWCMRDATE
+				    FROM TBL_BOARD_PACK_REVIEW_CM
+				    WHERE PACKREVIEWUNQ = '$packreviewunq$'
+				     ORDER BY PACKREVIEWCMRDATE 
+	</select>
+		<!-- 여행 리뷰 댓글 등록 insert -->
+	<insert id="packReviewDAO.insertPackReviewCm">
+		INSERT INTO TBL_BOARD_PACK_REVIEW_CM ( CMUNQ,
+									PACKREVIEWUNQ,
+									USERID,
+									PACKREVIEWCMCONTENT,
+									PACKREVIEWCMRDATE )
+							VALUES( TBL_BOARD_PACK_REVIEW_CM_SEQ.NEXTVAL
+									,'$packreviewunq$'
+									,'$userid$'
+									,'$packreviewcmcontent$'
+									,sysdate )
+	</insert>
+	<!-- 여행 리뷰 댓글 수정 update -->
+	<update id="packReviewDAO.updatePackReviewCm">
+		UPDATE TBL_BOARD_PACK_REVIEW_CM SET PACKREVIEWCMCONTENT=#packreviewcmcontent# WHERE CMUNQ=#cmunq#
+	</update>
+	
+	<!-- 여행 리뷰 댓글 삭제 delete -->
+	<delete id="packReviewDAO.deletePackReviewCm">
+		DELETE FROM TBL_BOARD_PACK_REVIEW_CM WHERE CMUNQ=#cmunq#
+	</delete>
+	
+	<!-- 좋아요 증가 -->
+	<update id="packReviewDAO.updatePackReviewStar">
+		UPDATE TBL_BOARD_PACK_REVIEW SET PACKREVIEWSTAR=PACKREVIEWSTAR+1 WHERE PACKREVIEWUNQ=#packreviewunq#
+	</update>
+			
+	<!-- 좋아요 확인 select -->
+		<select id="packReviewDAO.selectPackReviewLike" resultClass="int">
+			SELECT COUNT(*) FROM TBL_PACK_REVIEW_LIKE WHERE PACKREVIEWUNQ=#packreviewunq# AND USERID=#userid#
+		</select>
+	
+	<!-- 좋아요 클릭 insert -->
+		<insert id="packReviewDAO.insertPackReviewLike">
+			INSERT INTO TBL_PACK_REVIEW_LIKE(PACKREVIEWUNQ,USERID) VALUES('$packreviewunq$','$userid$')
+		</insert>
+	
+	<!-- 좋아요 취소 delete -->
+		<delete id="packReviewDAO.deletePackReviewLike">
+			DELETE FROM TBL_PACK_REVIEW_LIKE WHERE PACKREVIEWUNQ=#packreviewunq# AND USERID=#userid#
+		</delete>
+	<!-- 좋아요 감소 -->
+		<update id="packReviewDAO.updatePackReviewStarMinus">
+			UPDATE TBL_BOARD_PACK_REVIEW SET PACKREVIEWSTAR=PACKREVIEWSTAR-1 WHERE PACKREVIEWUNQ=#packreviewunq#
+		</update>
+	<!-- 패키지후기 작성목록 조회 -->
+		<select id="packReivewDAO.selectPackReviewCount" resultClass="int">
+			SELECT  COUNT(*) FROM  TBL_BOARD_PACK_REVIEW 
+				WHERE USERID = '$userid$'  AND PACKUNQ = '$packunq$'
+		</select>
+		</sqlMap>

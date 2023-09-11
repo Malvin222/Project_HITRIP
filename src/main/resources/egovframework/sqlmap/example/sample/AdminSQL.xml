@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AdminSpace">
+
+   <typeAlias  alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
+   <typeAlias  alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
+   <typeAlias  alias="adminVO" type="egov.hitrip.service.AdminVO"/>
+   <typeAlias  alias="noticeVO" type="egov.hitrip.service.NoticeVO"/>
+   <typeAlias  alias="bsnmVO" type="egov.hitrip.service.BsnmVO"/>
+      
+   <insert id="adminDAO.insertAdmin">
+      INSERT INTO TBL_ADMIN (  ADMINID         
+                            ,ADMINPASS         
+                            ,ADMINNAME
+                            ,ADMINPHONE
+                            ,ADMINSUPER )            
+               VALUES( #adminid#
+                     ,#adminpass#
+                     ,#adminname#
+                     ,#adminphone#
+                     ,#adminsuper# )
+   </insert>
+   
+   <insert id="adminDAO.insertNotice">
+      INSERT INTO TBL_BOARD_NOTICE (  NOTICEUNQ
+                             ,NOTICETITLE         
+                             ,NOTICEPASS            
+                             ,NOTICENAME            
+                             ,NOTICECONTENT         
+                             ,NOTICERDATE         
+                             ,NOTICEEMPS)          
+               VALUES( TBL_BOARD_NOTICE_SEQ.NEXTVAL
+                     ,#noticetitle#
+                     ,#noticepass#
+                     ,#noticename#
+                     ,#noticecontent#
+                     ,SYSDATE
+                     ,#noticeemps# )
+   </insert>
+   
+   <select id="adminDAO.selectAdminid" resultClass="int">
+      SELECT COUNT(*) FROM TBL_ADMIN
+      WHERE ADMINID = #adminid#
+   </select>
+   
+   <select id="adminDAO.selectFirstId" resultClass="int">
+      SELECT COUNT(*) FROM TBL_ADMIN
+   </select>
+   
+   <select id="adminDAO.selectAdminLogin" resultClass="String">
+      SELECT ADMINNAME FROM TBL_ADMIN
+         WHERE ADMINID = #adminid# AND ADMINPASS = #adminpass#
+   </select>
+   
+   <select id="adminDAO.selectAdminSuper" resultClass="String">
+      SELECT ADMINSUPER FROM TBL_ADMIN WHERE ADMINID = #adminid#
+   </select>
+   
+   <select id="adminDAO.selectAdminAuth" resultClass="String">
+      SELECT ADMINAUTH FROM TBL_ADMIN WHERE ADMINID = #adminid#
+   </select>
+   
+   <select id="adminDAO.selectNoticeList" resultClass="egovMap">
+          SELECT D.* FROM (    
+              SELECT ROWNUM RN,C.* FROM (
+                  SELECT A.* FROM (                   
+                          SELECT NOTICEUNQ
+                                ,NOTICETITLE
+                                ,NOTICENAME
+                                ,NOTICECONTENT
+                                ,NOTICEHITS
+                                ,TO_CHAR(NOTICERDATE,'yyyy-MM-dd') NOTICERDATE 
+                                ,NOTICEEMPS
+                          FROM TBL_BOARD_NOTICE
+                          WHERE NOTICEEMPS='Y'
+                          ORDER BY NOTICEUNQ DESC ) A
+                          UNION ALL
+                  SELECT B.* FROM (
+                          SELECT NOTICEUNQ
+                                ,NOTICETITLE
+                                ,NOTICENAME
+                                ,NOTICECONTENT
+                                ,NOTICEHITS
+                                ,TO_CHAR(NOTICERDATE,'yyyy-MM-dd') NOTICERDATE 
+                                ,NOTICEEMPS
+                          FROM TBL_BOARD_NOTICE
+                          WHERE NOTICEEMPS='N'
+                          ORDER BY NOTICEUNQ DESC ) B ) C
+            
+            WHERE 1 = 1
+            <isNotNull property="searchCondition">
+               <isNotEmpty property="searchCondition">
+                  AND $searchCondition$ LIKE '%'||#searchKeyword#||'%'
+               </isNotEmpty>
+            </isNotNull>
+               
+            ) D
+      WHERE RN BETWEEN #firstIndex# AND #lastIndex#      
+   </select>
+   
+   <select id="adminDAO.selectNoticeTotal" resultClass="int">
+      SELECT COUNT(*) TOTAL FROM
+          (select NOTICEUNQ
+                    ,NOTICETITLE
+                    ,NOTICENAME
+                    ,NOTICECONTENT
+                    ,NOTICEHITS
+                    ,TO_CHAR(NOTICERDATE,'yyyy-MM-dd') NOTICERDATE 
+                    ,NOTICEEMPS
+                    FROM TBL_BOARD_NOTICE)         
+         WHERE 1=1            
+         <isNotNull property="searchCondition">
+            <isNotEmpty property="searchCondition">
+               AND $searchCondition$ LIKE '%'||#searchKeyword#||'%'
+            </isNotEmpty>
+         </isNotNull>
+   </select>
+   
+   <select id="adminDAO.selectNoticeDetail" resultClass="noticeVO">
+      SELECT NOTICEUNQ
+              ,NOTICETITLE
+              ,NOTICENAME
+              ,NOTICECONTENT
+              ,NOTICEHITS
+              ,TO_CHAR(NOTICERDATE,'yyyy-MM-dd') NOTICERDATE 
+              ,NOTICEEMPS
+      FROM TBL_BOARD_NOTICE
+      WHERE NOTICEUNQ = #noticeunq#
+   </select>
+   <!-- 일반회원 s -->
+   <select id="adminDAO.selectMemberList" resultClass="egovMap">
+      SELECT B.* FROM(   
+           SELECT ROWNUM RN,A.* FROM (                              
+               SELECT USERID      
+                    ,USERNAME         
+                    ,USERNICKNAME   
+                    ,USERPHONE
+                     ,TO_CHAR(USERRDATE,'yyyy-MM-dd') USERRDATE
+                     ,DECODE(USERSTATE,'1','정상','2','중지','3','탈퇴','4','삭제') USERSTATE
+               FROM TBL_MEMBER
+      
+            WHERE 1 = 1
+            
+      <isNotNull property="searchCondition">
+         <isNotEmpty property="searchCondition">
+            AND $searchCondition$ LIKE '%'||#searchKeyword#||'%'
+         </isNotEmpty>
+      </isNotNull>
+         
+      ) A ) B
+      WHERE RN BETWEEN #firstIndex# AND #lastIndex#
+   </select>
+   
+   <select id="adminDAO.selectMemberTotal" resultClass="int">
+      SELECT COUNT(*) TOTAL FROM
+          (SELECT USERID
+                    ,USERNAME
+                    ,USERNICKNAME
+                    ,USERPHONE
+                    ,TO_CHAR(USERRDATE,'yyyy-MM-dd') USERRDATE
+                    ,DECODE(USERSTATE,'1','정상','2','중지','3','탈퇴','4','삭제') USERSTATE
+                    FROM TBL_MEMBER )         
+         WHERE 1=1            
+         <isNotNull property="searchCondition">
+            <isNotEmpty property="searchCondition">
+               AND $searchCondition$ LIKE '%'||#searchKeyword#||'%'
+            </isNotEmpty>
+         </isNotNull>
+   </select>
+   
+   <select id="adminDAO.selectMemberDetail" resultClass="memberVO">
+      SELECT USERID
+           ,USERNAME
+           ,USERNICKNAME
+           ,USEREMAIL
+           ,USERPHONE
+           ,USEROPENINFO
+           ,TO_CHAR(USERRDATE,'yyyy-MM-dd') USERRDATE
+           ,USERSTATE
+           ,USERMEMO
+      FROM TBL_MEMBER
+      WHERE USERID = #userid#
+   </select>
+   <!-- 일반회원 e -->
+   <!-- 사업자회원 s -->
+   <select id="adminDAO.selectBsnmList" resultClass="egovMap">
+      SELECT B.* FROM(   
+           SELECT ROWNUM RN,A.* FROM (                              
+               SELECT BSNMID      
+                    ,BSNMNAME         
+                    ,BSNMMAIL
+                    ,BSNMPHONE
+                    ,BSNMCOMPANY
+                     ,TO_CHAR(BSNMRDATE,'yyyy-MM-dd') BSNMRDATE
+                     ,DECODE(BSNMSTATE,'1','정상','2','중지','3','탈퇴','4','삭제') BSNMSTATE
+               FROM TBL_BSNM
+      
+            WHERE 1 = 1
+            
+      <isNotNull property="searchCondition">
+         <isNotEmpty property="searchCondition">
+            AND $searchCondition$ LIKE '%'||#searchKeyword#||'%'
+         </isNotEmpty>
+      </isNotNull>
+         
+      ) A ) B
+      WHERE RN BETWEEN #firstIndex# AND #lastIndex#
+   </select>
+   
+   <select id="adminDAO.selectBsnmTotal" resultClass="int">
+      SELECT COUNT(*) TOTAL FROM
+          (SELECT BSNMID      
+                    ,BSNMNAME         
+                    ,BSNMMAIL
+                    ,BSNMPHONE
+                    ,BSNMCOMPANY
+                     ,TO_CHAR(BSNMRDATE,'yyyy-MM-dd') BSNMRDATE
+                     ,DECODE(BSNMSTATE,'1','정상','2','중지','3','탈퇴','4','삭제') BSNMSTATE
+             FROM TBL_BSNM )         
+      WHERE 1=1            
+         <isNotNull property="searchCondition">
+            <isNotEmpty property="searchCondition">
+               AND $searchCondition$ LIKE '%'||#searchKeyword#||'%'
+            </isNotEmpty>
+         </isNotNull>
+   </select>
+   
+   <select id="adminDAO.selectBsnmDetail" resultClass="bsnmVO">
+      SELECT BSNMID      
+              ,BSNMNAME         
+              ,BSNMMAIL
+              ,BSNMPHONE
+              ,TO_CHAR(BSNMRDATE,'yyyy-MM-dd') BSNMRDATE
+              ,BSNMOPENINFO
+              ,BSNMNO
+              ,BSNMCOMPANY
+              ,DECODE(BSNMSTATE,'1','정상','2','중지','3','탈퇴','4','삭제') BSNMSTATE
+        FROM TBL_BSNM
+      WHERE BSNMID = #bsnmid#
+   </select>
+   <!-- 사업자회원 e -->
+   <update id="adminDAO.updateNoticeHits">
+      UPDATE TBL_BOARD_NOTICE SET NOTICEHITS=NOTICEHITS+1 WHERE NOTICEUNQ=#noticeunq#
+   </update>
+   
+   <update id="adminDAO.adminNoticeUpdate">
+      UPDATE TBL_BOARD_NOTICE SET
+            NOTICETITLE=#noticetitle#
+            ,NOTICENAME=#noticename#
+            ,NOTICECONTENT=#noticecontent#
+            ,NOTICEEMPS=#noticeemps#
+      WHERE  NOTICEUNQ=#noticeunq#
+   </update>
+   
+   <!-- 일반회원 e -->
+   <update id="adminDAO.updateMemberSave">
+      UPDATE TBL_MEMBER SET
+            USEREMAIL = #useremail#
+            ,USERPHONE = #userphone#
+            ,USEROPENINFO = #useropeninfo#
+            ,USERSTATE = #userstate#
+            ,USERMEMO = #usermemo#
+      WHERE USERID = #userid#
+   </update>   
+   
+   <update id="adminDAO.updateAllState">
+      UPDATE TBL_MEMBER SET
+            USERSTATE = 4
+      WHERE USERSTATE = #userstate#
+   </update>
+   <!-- 일반회원e -->
+   <!-- 사업자 회원s -->
+   <update id="adminDAO.updateBsnmSave">
+      UPDATE TBL_BSNM SET
+            BSNMMAIL = #bsnmmail#
+            ,BSNMPHONE = #bsnmphone#
+            ,BSNMOPENINFO = #bsnmopeninfo#
+            ,BSNMSTATE = #bsnmstate#
+            ,BSNMMEMO = #bsnmmemo#
+      WHERE BSNMID = #bsnmid#
+   </update>
+   
+   <update id="adminDAO.updateBsnmAllState">
+      UPDATE TBL_BSNM SET
+            BSNMSTATE = 4
+      WHERE BSNMSTATE = #bsnmstate#
+   </update>
+   <!-- 사업자 회원e -->
+   <delete id="adminDAO.adminNoticeDelete">
+      DELETE FROM TBL_BOARD_NOTICE WHERE NOTICEUNQ=#noticeunq#
+   </delete>
+   <!-- 일반회원s -->
+   <delete id="adminDAO.deleteMemberUser">
+      DELETE FROM TBL_MEMBER WHERE USERID = #userid#
+   </delete>
+   
+   <delete id="adminDAO.deleteAllDelete">
+      DELETE FROM TBL_MEMBER WHERE USERSTATE = #userstate#
+   </delete>
+   <!-- 일반회원e -->
+   <!-- 사업자회원 s -->   
+   <delete id="adminDAO.deleteBsnmUser">
+      DELETE FROM TBL_BSNM WHERE BSNMID = #bsnmid#
+   </delete>
+   
+   <delete id="adminDAO.deleteBsnmAllDelete">
+      DELETE FROM TBL_BSNM WHERE BSNMSTATE = #bsnmstate#
+   </delete>
+   <!-- 사업자회원 e -->
+</sqlMap>

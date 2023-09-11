@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ReviewSpace">
+
+	<typeAlias  alias="egovMap"   type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="defaultVO" type="egov.hitrip.service.DefaultVO"/>
+	<typeAlias  alias="reviewVO" type="egov.hitrip.service.ReviewVO"/>
+	
+	<!-- 여행 후기 등록 insert -->
+	<insert id="reviewDAO.insertReviewSave">
+		INSERT INTO TBL_REVIEW( REVIEWUNQ
+								,USERID
+								,REVIEWRDATE
+								,REVIEWUDATE
+								,REVIEWSDATE
+								,REVIEWEDATE
+								,REVIEWCONTENT
+								,REVIEWHITS
+								,REVIEWSTAR
+								,REVIEWSRC
+								,REVIEWTITLE ) 
+							
+		           VALUES(   TBL_REVIEW_SEQ.NEXTVAL 
+						    ,'$userid$'
+							,sysdate
+							,sysdate
+							,'$reviewsdate$'
+							,'$reviewedate$'
+							,'$reviewcontent$'
+							,'0'
+							,'0'
+							,'$reviewsrc$'
+							,'$reviewtitle$')
+										  
+	</insert>
+	
+	<sql id="reviewList">
+		SELECT   REVIEWUNQ
+				,USERID
+				,TO_CHAR(REVIEWRDATE,'YYYY-MM-DD') REVIEWRDATE
+				,TO_CHAR(REVIEWUDATE,'YYYY-MM-DD') REVIEWUDATE
+				,TO_CHAR(REVIEWSDATE,'YYYY-MM-DD') REVIEWSDATE
+				,TO_CHAR(REVIEWEDATE,'YYYY-MM-DD') REVIEWEDATE
+				,REVIEWCONTENT
+				,REVIEWHITS
+				,REVIEWSTAR
+				,REVIEWSRC
+				,REVIEWTITLE
+		FROM
+				 TBL_REVIEW 
+		WHERE	
+				1=1
+			<isNotNull property="searchCondition">
+	  		<isNotEmpty property="searchCondition">
+	    		AND $searchCondition$ LIKE '%$searchKeyword$%'
+      		</isNotEmpty>
+			</isNotNull>
+	</sql>
+	
+	<!-- 여행 후기 리스트 select -->
+	<select id="reviewDAO.selectReviewList" resultClass="egovMap">
+	 	SELECT b.* FROM (
+			SELECT rownum rn, a.* FROM (
+				SELECT   REVIEWUNQ
+				,USERID
+				,TO_CHAR(REVIEWRDATE,'YYYY-MM-DD') REVIEWRDATE
+				,TO_CHAR(REVIEWUDATE,'YYYY-MM-DD') REVIEWUDATE
+				,TO_CHAR(REVIEWSDATE,'YYYY-MM-DD') REVIEWSDATE
+				,TO_CHAR(REVIEWEDATE,'YYYY-MM-DD') REVIEWEDATE
+				,REVIEWCONTENT
+				,REVIEWHITS
+				,REVIEWSTAR
+				,REVIEWSRC
+				,REVIEWTITLE
+		FROM
+				 TBL_REVIEW 
+		WHERE	
+				1=1
+			<isNotNull property="searchCondition">
+	  		<isNotEmpty property="searchCondition">
+	    		AND $searchCondition$ LIKE '%$searchKeyword$%'
+      		</isNotEmpty>
+			</isNotNull>
+				ORDER BY reviewunq DESC
+			) a
+		) b			
+		WHERE 	
+		  	rn  BETWEEN  $firstIndex$  AND  $lastIndex$ 
+	</select>
+	
+	
+	<!-- 여행 후기 총 개수 total -->
+	<select id="reviewDAO.selectReviewTotal" resultClass="int">
+		SELECT COUNT(*) FROM (SELECT   REVIEWUNQ
+										,USERID
+										,TO_CHAR(REVIEWRDATE,'YYYY-MM-DD') REVIEWRDATE
+										,TO_CHAR(REVIEWUDATE,'YYYY-MM-DD') REVIEWUDATE
+										,TO_CHAR(REVIEWSDATE,'YYYY-MM-DD') REVIEWSDATE
+										,TO_CHAR(REVIEWEDATE,'YYYY-MM-DD') REVIEWEDATE
+										,REVIEWCONTENT
+										,REVIEWHITS
+										,REVIEWSTAR
+										,REVIEWSRC
+										,REVIEWTITLE
+		FROM
+				 TBL_REVIEW 
+		WHERE	
+				1=1
+			<isNotNull property="searchCondition">
+	  		<isNotEmpty property="searchCondition">
+	    		AND $searchCondition$ LIKE '%$searchKeyword$%'
+      		</isNotEmpty>
+			</isNotNull>)
+	</select>
+	
+
+	<!-- 여행 후기 삭제 delete -->
+	<delete id="reviewDAO.deleteReview">
+		DELETE FROM TBL_REVIEW WHERE REVIEWUNQ='$reviewunq$'
+	</delete>
+	
+	<!-- 여행 후기 디테일 select -->
+	<select id="reviewDAO.selectReviewDetail" resultClass="reviewVO">
+		SELECT   REVIEWUNQ
+				,USERID
+				,TO_CHAR(REVIEWRDATE,'YYYY-MM-DD') REVIEWRDATE
+				,TO_CHAR(REVIEWUDATE,'YYYY-MM-DD') REVIEWUDATE
+				,TO_CHAR(REVIEWSDATE,'YYYY-MM-DD') REVIEWSDATE
+				,TO_CHAR(REVIEWEDATE,'YYYY-MM-DD') REVIEWEDATE
+				,REVIEWCONTENT
+				,REVIEWHITS
+				,REVIEWSTAR
+				,REVIEWSRC
+				,REVIEWTITLE
+		FROM
+				 TBL_REVIEW 
+		WHERE	REVIEWUNQ='$REVIEWUNQ$'
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="reviewDAO.updateReviewHits">
+		UPDATE TBL_REVIEW SET REVIEWHITS=REVIEWHITS+1 WHERE REVIEWUNQ=#reviewunq#
+	</update>
+	
+	<!-- 좋아요 증가 -->
+	<update id="reviewDAO.updateReviewStar">
+		UPDATE TBL_REVIEW SET REVIEWSTAR=REVIEWSTAR+1 WHERE REVIEWUNQ=#reviewunq#
+	</update>
+	
+	<!-- 좋아요 확인 select -->
+	<select id="reviewDAO.selectReviewLike" resultClass="int">
+		SELECT COUNT(*) FROM TBL_REVIEW_LIKE WHERE REVIEWUNQ=#reviewunq# AND USERID=#userid#
+	</select>
+
+	<!-- 좋아요 클릭 insert -->
+	<insert id="reviewDAO.insertReviewLike">
+		INSERT INTO TBL_REVIEW_LIKE(REVIEWUNQ,USERID) VALUES('$reviewunq$','$userid$')
+	</insert>
+
+	<!-- 좋아요 취소 delete -->
+	<delete id="reviewDAO.deleteReviewLike">
+		DELETE FROM TBL_REVIEW_LIKE WHERE REVIEWUNQ=#reviewunq# AND USERID=#userid#
+	</delete>
+	<!-- 좋아요 감소 update -->
+	<update id="reviewDAO.updateReviewStarMinus">
+			UPDATE TBL_REVIEW SET REVIEWSTAR=REVIEWSTAR-1 WHERE REVIEWUNQ=#reviewunq#
+	</update>
+ 
+ 	<!-- 여행 리뷰 수정 update -->
+ 	<update id="reviewDAO.updateReviewSave">
+ 		UPDATE TBL_REVIEW SET 	REVIEWTITLE='$reviewtitle$'
+						 		,REVIEWSDATE='$reviewsdate$'
+						 		,REVIEWEDATE='$reviewedate$'
+						 		,REVIEWUDATE=sysdate
+						 		,REVIEWCONTENT='$reviewcontent$'
+						 		,REVIEWSRC='$reviewsrc$'
+ 		WHERE REVIEWUNQ='$reviewunq$'
+ 	</update>
+ 	
+ 	
+ 	
+ 	<!-- 여행 리뷰 댓글 리스트 select -->
+ 	<select id="reviewDAO.selectReviewCm" resultClass="egovMap">
+		SELECT  CMUNQ
+				,USERID
+ 				,REVIEWCMCONTENT
+			    ,TO_CHAR(REVIEWCMRDATE,'yyyy-mm-dd') REVIEWCMRDATE
+		FROM TBL_REVIEW_CM
+		WHERE REVIEWUNQ = '$reviewunq$'
+	</select>
+	
+	<!-- 여행 리뷰 댓글 등록 insert -->
+	<insert id="reviewDAO.insertReviewCm">
+		INSERT INTO TBL_REVIEW_CM ( CMUNQ,
+									REVIEWUNQ,
+									USERID,
+									REVIEWCMCONTENT,
+									REVIEWCMRDATE )
+							VALUES( TBL_REVIEW_CM_SEQ.NEXTVAL
+									,'$reviewunq$'
+									,'$userid$'
+									,'$reviewcmcontent$'
+									,sysdate )
+	</insert>
+	
+	<!-- 여행 리뷰 댓글 삭제 delete -->
+	<delete id="reviewDAO.deleteReviewCm">
+		DELETE FROM TBL_REVIEW_CM WHERE CMUNQ=#cmunq#
+	</delete>
+	
+	<!-- 여행 리뷰 댓글 수정 update -->
+	<update id="reviewDAO.updateReviewCm">
+		UPDATE TBL_REVIEW_CM SET REVIEWCMCONTENT=#reviewcmcontent# WHERE CMUNQ=#cmunq#
+	</update>
+	
+</sqlMap>

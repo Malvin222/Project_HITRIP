@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PrtSpace">
+
+	<typeAlias  alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
+	<typeAlias  alias="prtVO" type="egov.hitrip.service.PrtVO"/>
+	
+	<insert id="prtDAO.insertPrtBoard">
+			INSERT INTO TBL_BOARD_PRT( 
+						PrtUNQ
+					   ,PLANUNQ
+					   ,USERID
+					   ,USERGENDER
+					   ,USERAGE
+					   ,PRTTRVAREA
+					   ,PRTTITLE
+					   ,PRTPASS
+					   ,PRTCONTENT
+					   ,PRTRDATE
+					   ,PRTUDATE
+					   ,PLANSDATE
+					   ,PLANEDATE
+					   ,PRTSRC )
+				VALUES( 
+				TBL_BOARD_PRT_SEQ.NEXTVAL
+				,#planunq#
+				,#userid#
+				,#usergender#
+				,#userage#
+				,#prttrvarea#
+				,#prttitle#
+				,#prtpass#
+				,#prtcontent#
+				,sysdate
+				,sysdate
+				,#plansdate#
+				,#planedate#
+				,#prtsrc#	) 
+	</insert>
+	
+	<insert id="prtDAO.insertPrtBoardCm">
+		INSERT INTO TBL_BOARD_PRT_CM(
+				PRTCMUNQ,
+				PRTUNQ,
+				USERID,
+				PRTCMCONTENT,
+				PRTCMRDATE )
+			VALUES(
+			TBL_BOARD_PRT_CM_SEQ.NEXTVAL
+			,#prtunq#
+			,#userid#
+			,#prtcmcontent#
+			,sysdate )			   
+	</insert>
+	
+	<select id="prtDAO.selectPrtList" resultClass="egovMap">
+	    SELECT C.* FROM (    
+		    SELECT ROWNUM RN,B.* FROM (
+		        SELECT A.* FROM (                   
+		            SELECT TBP.PRTUNQ
+		                  ,TBP.PLANUNQ
+		                  ,TBP.USERID
+		                  ,TM.USERNICKNAME
+		                  ,TBP.USERGENDER
+		                  ,TBP.USERAGE
+		                  ,TBP.PRTTRVAREA
+		                  ,TBP.PRTTITLE
+		                  ,TBP.PRTPASS
+		                  ,TBP.PRTCONTENT
+		                  ,TBP.PRTRDATE
+		                  ,TBP.PRTUDATE
+		                  ,TO_CHAR(TBP.PLANSDATE,'YYYY-MM-DD') PLANSDATE
+						  ,TO_CHAR(TBP.PLANEDATE,'YYYY-MM-DD') PLANEDATE
+		                  ,TBP.PRTHITS
+		                  ,TBP.PRTSRC
+					FROM TBL_BOARD_PRT TBP,TBL_MEMBER TM
+		            WHERE TBP.USERID = TM.USERID
+			                ORDER BY PRTRDATE DESC ) A ) B
+			
+			WHERE 1 = 1
+			<isNotNull property="searchCondition">
+				<isNotEmpty property="searchCondition">
+					AND $searchCondition$ LIKE '%'||#searchKeyword#||'%'
+				</isNotEmpty>
+			</isNotNull>
+				
+			) C
+		WHERE RN BETWEEN #firstIndex# AND #lastIndex#		
+	</select>
+	
+	<select id="prtDAO.selectPrtTotal" resultClass="int">
+	SELECT COUNT(*) TOTAL FROM
+		 (SELECT PrtUNQ
+			  	,PLANUNQ
+			  	,USERID
+			  	,USERGENDER
+			  	,USERAGE
+			  	,PRTTRVAREA
+			  	,PRTTITLE
+			  	,PRTCONTENT
+			  	,PLANSDATE
+			  	,PLANEDATE
+          FROM TBL_BOARD_PRT )			
+		WHERE 1=1				
+		<isNotNull property="searchCondition">
+			<isNotEmpty property="searchCondition">
+				AND $searchCondition$ LIKE '%'||#searchKeyword#||'%'
+			</isNotEmpty>
+		</isNotNull>
+	</select>
+	
+	<select id="prtDAO.selectPrtBoardDetail" resultClass="prtVO">
+			SELECT TBP.PRTUNQ
+				  ,TBP.PLANUNQ
+				  ,TBP.USERID
+                  ,TM.USERNICKNAME
+				  ,DECODE(TBP.USERGENDER,'M','남자','F','여자') USERGENDER
+  				  ,TBP.USERAGE
+				  ,TBP.PRTTRVAREA
+				  ,TBP.PRTTITLE
+				  ,TBP.PRTCONTENT
+				  ,TO_CHAR(TBP.PRTRDATE,'YYYY-MM-DD') PRTRDATE
+				  ,TO_CHAR(TBP.PRTUDATE,'YYYY-MM-DD') PRTUDATE
+				  ,TO_CHAR(TBP.PLANSDATE,'YYYY-MM-DD') PLANSDATE
+				  ,TO_CHAR(TBP.PLANEDATE,'YYYY-MM-DD') PLANEDATE
+				  ,TBP.PRTHITS
+				  ,TBP.PRTSRC
+			FROM TBL_BOARD_PRT TBP,TBL_MEMBER TM
+            WHERE PRTUNQ = #prtunq#
+              AND TBP.USERID = #userid#
+              AND TM.USERID = #userid#
+	</select>
+	
+	<select id="prtDAO.selectPrtBoardCm" resultClass="egovMap">
+		SELECT PRTCMUNQ
+			  ,PRTUNQ
+			  ,USERID
+ 			  ,PRTCMCONTENT
+			  ,TO_CHAR(PRTCMRDATE,'yyyy-mm-dd HH24:MI') PRTCMRDATE
+		FROM TBL_BOARD_PRT_CM
+		WHERE PRTUNQ = #prtunq#
+		ORDER BY PRTCMRDATE
+	</select>
+	
+	<select id="prtDAO.selectPlanunq" resultClass="String">
+		SELECT PLANUNQ FROM TBL_BOARD_PRT 
+		WHERE PRTUNQ = #prtunq#
+	</select>
+	
+	<update id="prtDAO.updatePrtBoardHits">
+		UPDATE TBL_BOARD_PRT SET PRTHITS=prthits+1 
+		WHERE PRTUNQ = #prtunq# 
+	</update>
+	
+	<update id="prtDAO.updatePrtBoard">
+		UPDATE TBL_BOARD_PRT SET 
+					PRTTITLE   = #prttitle#
+				   ,PRTTRVAREA = #prttrvarea#
+				   ,PLANSDATE  = #plansdate#
+				   ,PLANEDATE  = #planedate#
+				   ,PRTCONTENT  = #prtcontent#
+				   ,PRTUDATE = sysdate
+				   ,PRTSRC = #prtsrc#
+		WHERE PRTUNQ=#prtunq#
+		  AND PRTPASS=#prtpass# 
+	</update>
+	
+	<!-- 댓글수정 -->
+	<update id="prtDAO.updatePrtBoardCm">
+		UPDATE TBL_BOARD_PRT_CM SET PRTCMCONTENT=#prtcmcontent# WHERE PRTCMUNQ =#prtcmunq#
+	</update>
+	
+	<delete id="prtDAO.deletePrtBoard">
+		DELETE FROM TBL_BOARD_PRT 
+		WHERE PRTUNQ = #prtunq#
+	</delete>
+	
+	<delete id="prtDAO.deletePrtBoardCm">
+		DELETE FROM TBL_BOARD_PRT_CM 
+		WHERE PRTCMUNQ = #prtcmunq#
+		  AND PRTUNQ = #prtunq#
+	</delete>
+	
+</sqlMap>

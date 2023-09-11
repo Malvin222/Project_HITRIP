@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PlanSpace">
+
+	<typeAlias  alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
+	<typeAlias  alias="planVO" type="egov.hitrip.service.PlanVO"/>
+	
+	<insert id="planDAO.insertPlan">
+		INSERT INTO TBL_PLAN( PLANUNQ
+							 ,PLANYEAR
+							 ,PLANMONTH
+							 ,PLANDAY
+							 ,PLANEYEAR
+							 ,PLANEMONTH
+							 ,PLANEDAY
+							 ,PLANTITLE
+							 ,PLANCONTENT
+							 ,PLANOPEN
+							 ,USERID )
+					VALUES( TBL_PLAN_SEQ.NEXTVAL
+						   ,#planyear#
+						   ,#planmonth#
+						   ,#planday#
+						   ,#planeyear#
+						   ,#planemonth#
+						   ,#planeday#
+						   ,#plantitle#
+						   ,#plancontent#
+						   ,#planopen#
+						   ,#userid# )
+	</insert>
+	
+	<select id="planDAO.selectPlanList" resultClass="egovMap">
+		SELECT PLANUNQ
+			  ,PLANYEAR
+			  ,PLANMONTH
+			  ,PLANDAY
+			  ,PLANEYEAR
+			  ,PLANEMONTH
+			  ,PLANEDAY
+			  ,PLANTITLE
+			  ,PLANCONTENT
+			  ,PLANOPEN
+			  ,USERID
+		FROM TBL_PLAN
+		WHERE USERID = #userid#
+	</select>
+	
+	<select id="planDAO.selectPlanDetail" resultClass="planVO">
+		SELECT PLANUNQ
+      		  ,PLANYEAR
+			  ,PLANMONTH
+			  ,PLANDAY
+			  ,PLANEYEAR
+			  ,PLANEMONTH
+			  ,PLANEDAY
+			  ,PLANTITLE
+			  ,PLANCONTENT
+			  ,DECODE(PLANOPEN,'Y','등록','N','미등록') PLANOPEN
+	     FROM TBL_PLAN	             
+	     WHERE PLANUNQ = #planunq#
+	</select>
+	
+	<select id="planDAO.selectPrtunq" resultClass="String">
+		SELECT PRTUNQ FROM TBL_BOARD_PRT 
+		WHERE PLANUNQ = #planunq#
+	</select>
+	
+	<update id="planDAO.updatePlan">
+		UPDATE TBL_PLAN SET
+				PLANTITLE = #plantitle#
+			   ,PLANYEAR = #planyear#
+			   ,PLANMONTH = #planmonth#
+			   ,PLANDAY = #planday#
+			   ,PLANEYEAR = #planeyear#
+			   ,PLANEMONTH = #planemonth#
+			   ,PLANEDAY = 	#planeday#
+			   ,PLANCONTENT = #plancontent#
+			   ,PLANOPEN = #planopen#
+		WHERE PLANUNQ = #planunq#
+		  AND USERID = #userid#
+	</update>
+	
+	<update id="planDAO.updatePlanOpen">
+		UPDATE TBL_PLAN SET
+				PLANOPEN = 'Y'
+		WHERE PLANUNQ = #planunq#
+			AND USERID = #userid#
+	</update>
+
+	<update id="planDAO.updatePlanClose">
+		UPDATE TBL_PLAN SET
+				PLANOPEN = 'N'
+		WHERE PLANUNQ = #planunq#
+	</update>
+	
+	<delete id="planDAO.deletePlan">
+		DELETE FROM TBL_PLAN 
+		WHERE PLANUNQ=#planunq#
+		  AND USERID = #userid#
+	</delete>
+	
+</sqlMap>

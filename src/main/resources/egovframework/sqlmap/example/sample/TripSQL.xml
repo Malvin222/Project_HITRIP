@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TripSpace">
+
+	<typeAlias  alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
+	<typeAlias  alias="TripVO" type="egov.hitrip.service.TripVO"/>
+
+	
+	<!-- 국내여행지 리스트 SQL -->
+	<select id="tripDAO.selectTripList" resultClass="egovMap">
+	SELECT b.* FROM (SELECT rownum rn, a.* FROM (SELECT addr1,
+										addr2,
+										contentid,
+										mapx,
+										mapy,
+										mlevel,
+										tel,
+										title,
+										firstimage,
+										contenttypeid,
+										areacode
+										 FROM tbl_trip WHERE 1=1
+	<isNotNull property="searchCondition">
+	<isNotEmpty property="searchCondition"> AND $searchCondition$ LIKE '%$searchKeyword$%' </isNotEmpty>
+	</isNotNull>
+	 ) a ) b WHERE rn BETWEEN $firstIndex$ AND $lastIndex$ 
+	</select>
+	
+	<!-- 국내여행지 토탈 SQL -->
+	<select id="tripDAO.selectTripTotal" resultClass="int">
+		SELECT COUNT(*) FROM tbl_trip WHERE 1 = 1
+	<isNotNull property="searchCondition">
+	<isNotEmpty property="searchCondition"> AND $searchCondition$ LIKE '%$searchKeyword$%' </isNotEmpty>
+	</isNotNull>
+
+	</select>
+	
+	<!-- 국내여행지 디테일 SQL -->
+	<select id="tripDAO.selectTripDetail" resultClass="tripVO">
+		SELECT contentid,title,addr1,mapx,mapy,mlevel,tel,firstimage FROM tbl_trip WHERE contentid=#contentid#
+	</select>
+	
+	<!-- 홈화면 랜덤용 -->
+	<select id="tripDAO.selectTripHomeList" resultClass="tripVO">
+		SELECT rn, title, contentid, firstimage
+			FROM (
+			    SELECT rownum rn, a.*
+			    FROM (
+			        SELECT title, contentid, firstimage
+			        FROM tbl_trip
+			        ORDER BY DBMS_RANDOM.VALUE
+			    ) a
+			) b
+		WHERE 30 >= rn
+	</select>
+	
+</sqlMap>

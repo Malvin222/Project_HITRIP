@@ -1,0 +1,100 @@
+@charset "UTF-8";
+
+/* 사진 크기 */
+ img {
+    width: 200px;
+    height: 150px;
+}
+
+a {
+	text-decoration: none;
+  	color: #696969;
+}
+
+a:hover,
+a:focus {
+  	color: #0000a0;
+}
+
+/* 데이터 테이블 */
+table {
+    table-layout: fixed; /* Fixed table layout to prevent auto-sizing */
+    width: 100%; /* Set the table width to 100% */
+    height: 600px;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 2px;
+    text-align: left; /* Align table cell contents to the left */
+    word-wrap: break-word; /* Wrap long content inside cells */
+    max-width: 200px; /* Limit the width of each cell to prevent distortion */
+    font-size: 12px;
+    line-height: 1.2; /* 줄 간격 조절 */
+}
+    
+/* 페이징 */
+#pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* 페이지 버튼 */
+#pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+#pagination button.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+#pagination button:hover {
+    background-color: #dcdcdc;
+}
+
+        
+/* cityNav style S */
+.nav_wrap {
+   display: flex;
+   align-items: center;
+   
+ }
+
+.navbar {
+  list-style-type: none;
+  display: flex;
+}
+
+.nav_item {
+  margin-right: 20px;
+}
+
+#cityNav {
+   margin-bottom: 10px;
+   padding-bottom: 10px ;
+   background-color: #f2f2f2;
+}
+
+.cityNavLink {
+  text-decoration: none;
+  color: #696969;
+  font-size: 14px;
+  margin-left: 10px; 
+  cursor: pointer;
+  font-weight: normal;
+  transition: font-weight 0.3s;
+}
+
+
+/* 서울 경기 등 국내여행지 서브 메뉴 클릭시 서브메뉴 'bold'로 표시 */
+.cityNavLink.active,
+.cityNavLink:hover { 
+    font-weight: bold;
+}

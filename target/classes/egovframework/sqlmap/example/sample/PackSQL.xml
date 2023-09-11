@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PackSpace">
+
+	<typeAlias  alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
+	<typeAlias  alias="packVO" type="egov.hitrip.service.PackVO"/>
+
+	<!-- 패키지 여행 게시판 저장 -->
+	<insert id="packDAO.insertPackBoardWriteSave">
+			INSERT INTO TBL_BOARD_PACK( 
+						PACKUNQ
+						,BSNMID
+						,PACKTITLE
+						,PACKPASS
+						,PACKLOC
+						,PACKRDATE
+						,PACKSDATE
+						,PACKEDATE
+						,PACKCHARGE
+						,PACKOPEN
+						,PACKSRC1 )
+				VALUES( 
+				TBL_BOARD_PACK_SEQ.NEXTVAL
+				,'$bsnmid$'
+				,'$packtitle$'
+				,'$packpass$'
+				,'$packloc$'
+				,  sysdate
+				,'$packsdate$'
+				,'$packedate$'
+				,'$packcharge$'
+				, 'y'
+				,'$packsrc1$'	) 
+	</insert>
+	<!-- 여행게시판 리스트 -->
+		<sql id="packBoardList">
+			SELECT  PACKUNQ
+				    ,BSNMID
+				    ,PACKTITLE
+				    ,PACKPASS
+  				    ,PACKLOC
+				    ,TO_CHAR(PACKRDATE,'yyyy-mm-dd') PACKRDATE
+				    ,TO_CHAR(PACKSDATE,'yyyy-mm-dd') PACKSDATE
+				    ,TO_CHAR(PACKEDATE,'yyyy-mm-dd') PACKEDATE
+				    ,TO_CHAR(PACKCHARGE,'FM999,999,999,999,999') PACKCHARGE
+				    ,PACKOPEN
+				    ,PACKSRC1
+				    ,PACKHITS
+				    FROM TBL_BOARD_PACK
+				     WHERE 1=1
+			<isNotNull property="searchCondition">
+			<isNotEmpty property="searchCondition">
+			AND $searchCondition$ LIKE '%$searchKeyword$%' 
+			</isNotEmpty>
+			</isNotNull>
+					 ORDER BY PACKSDATE DESC
+		</sql>
+		
+		<!-- 여행게시판리스트 페이지 인덱스 -->
+		<select id="packDAO.selectPackBoardList" resultClass="egovMap">
+			SELECT b.* FROM (SELECT rownum rn, a.* FROM ( 
+			<include refid="packBoardList"/>
+			) a) b WHERE rn BETWEEN $firstIndex$ AND $lastIndex$ 
+		</select>		
+		
+		<!-- 패키지여행 목록 토탈 -->
+		<select id="packDAO.selectPackBoardTotal" resultClass="int">
+			SELECT COUNT(*) FROM (
+			<include refid="packBoardList"/>
+			) 
+		</select>
+		<!-- 패키지여행 디테일 -->
+		<select id="packDAO.selectPackBoardDetail" resultClass="packVO">
+			SELECT  PACKUNQ
+				    ,BSNMID
+				    ,PACKTITLE
+				    ,PACKPASS
+  				    ,PACKLOC
+				    ,PACKRDATE
+				    ,TO_CHAR(PACKSDATE,'yyyy-mm-dd') PACKSDATE
+				    ,TO_CHAR(PACKEDATE,'yyyy-mm-dd') PACKEDATE
+				    ,TO_CHAR(PACKCHARGE,'FM999,999,999,999,999') PACKCHARGE
+				    ,PACKOPEN
+				    ,PACKSRC1
+				    ,PACKHITS
+				    ,PACKSTAR
+				    FROM TBL_BOARD_PACK
+				   WHERE PACKUNQ = #packunq#
+		</select>
+		
+		<!-- 패키지여행 수정 -->
+		<update id="packDAO.updatePackBoard">
+			UPDATE TBL_BOARD_PACK SET 
+						PACKTITLE   =#packtitle#
+						,PACKLOC    =#packloc#
+						,PACKRDATE  =sysdate
+						,PACKSDATE  =#packsdate#
+						,PACKEDATE 	=#packedate#
+						,PACKCHARGE =#packcharge#
+						,PACKSRC1 = #packsrc1#
+					WHERE
+					PACKUNQ=#packunq#
+		</update>
+		
+		<!-- 조회수증가 -->
+		<update id="packDAO.updatePackBoardHits">
+			UPDATE TBL_BOARD_PACK SET PACKHITS=PACKHITS+1 WHERE PACKUNQ=#packunq# 
+		</update>
+		
+		<!-- 패키지여행삭제 -->
+		<delete id="packDAO.deletePackBoard">
+				DELETE FROM TBL_BOARD_PACK WHERE PACKUNQ=#packunq#
+		</delete>
+		
+		<!-- 댓글목록출력 -->
+		<select id="packDAO.selectPackBoardCm" resultClass="egovMap">
+			SELECT  CMUNQ
+					,USERID
+				    ,PACKCMPASS
+  				    ,PACKCMCONTENT
+				    ,TO_CHAR(PACKCMRDATE,'yyyy-mm-dd') PACKCMRDATE
+				    FROM TBL_BOARD_PACK_CM
+				    WHERE PACKUNQ = '$packunq$'
+					ORDER BY CMUNQ 
+		</select>
+		
+		<!-- 댓글저장 -->
+		<insert id="packDAO.insertPackBoardCm">
+			INSERT INTO TBL_BOARD_PACK_CM(
+					CMUNQ,
+					PACKUNQ,
+					USERID,
+					PACKCMCONTENT,
+					PACKCMRDATE )
+				VALUES(
+				TBL_BOARD_PACK_CM_SEQ.NEXTVAL
+				,'$packunq$'
+				,'$userid$'
+				,'$packcmcontent$'
+				,sysdate
+				)
+		</insert>
+		
+		<!-- 댓글삭제 -->
+		<delete id="packDAO.deletePackBaordCm">
+			DELETE FROM TBL_BOARD_PACK_CM WHERE CMUNQ=#cmunq#
+		</delete>
+		
+		<!-- 댓글수정 -->
+		<update id="packDAO.updatePackBoardCm">
+			UPDATE TBL_BOARD_PACK_CM SET PACKCMCONTENT=#packcmcontent# WHERE CMUNQ =#cmunq#
+		</update>
+		
+		<!-- 패키지 참여 -->
+		<insert id="packDAO.insertPackReserve">
+			
+			INSERT INTO TBL_PACK_RESERVE(
+					PACKUNQ
+					,USERID
+					,PACKTITLE
+					,PACKSDATE
+					,PACKEDATE
+					,PACKLOC )
+				VALUES(
+				'$packunq$'
+				,'$userid$'
+				,'$packtitle$'
+				,'$packsdate$'
+				,'$packedate$'
+				,'$packloc$'
+				)
+		</insert>
+		<!-- 패키지참여검사 -->
+		<select id="packDAO.selectReserveUserid" resultClass="int">
+			SELECT COUNT(*) FROM TBL_PACK_RESERVE 
+			WHERE PACKUNQ='$packunq$' AND USERID ='$userid$'
+		</select>
+		<!-- 패키지 참여 취소 -->
+		<delete id="packDAO.deleteReserve">
+			DELETE FROM TBL_PACK_RESERVE WHERE PACKUNQ='$packunq$' AND USERID ='$userid$'
+		</delete>
+		
+		<!-- 좋아요 증가 -->
+			<update id="packDAO.updatePackStar">
+				UPDATE TBL_BOARD_PACK SET PACKSTAR=PACKSTAR+1 WHERE PACKUNQ=#packunq#
+			</update>
+			
+		<!-- 좋아요 확인 select -->
+			<select id="packDAO.selectPackLike" resultClass="int">
+				SELECT COUNT(*) FROM TBL_PACK_LIKE WHERE PACKUNQ=#packunq# AND USERID=#userid#
+			</select>
+		
+		<!-- 좋아요 클릭 insert -->
+			<insert id="packDAO.insertPackLike">
+				INSERT INTO TBL_PACK_LIKE(PACKUNQ,USERID) VALUES('$packunq$','$userid$')
+			</insert>
+		
+		<!-- 좋아요 취소 delete -->
+			<delete id="packDAO.deletePackLike">
+				DELETE FROM TBL_PACK_LIKE WHERE PACKUNQ=#packunq# AND USERID=#userid#
+			</delete>
+		<!-- 좋아요 감소 -->
+			<update id="packDAO.updatePackStarMinus">
+				UPDATE TBL_BOARD_PACK SET PACKSTAR=PACKSTAR-1 WHERE PACKUNQ=#packunq#
+			</update>
+			
+		
+		</sqlMap>

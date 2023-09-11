@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BsnmSpace">
+
+	<typeAlias  alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
+	<typeAlias  alias="bsnmVO" type="egov.hitrip.service.BsnmVO"/>
+	
+	<!-- 사업자회원 인서트 -->
+	<insert id="bsnmDAO.insertBsnm">
+		INSERT INTO TBL_BSNM (  BSNMID					<!-- 사업자아이디 -->
+						   		 ,BSNMCOMPANY			<!-- 사업자패스워드 -->
+						   		 ,BSNMPASS				<!-- 사업자이름 -->
+						   		 ,BSNMNAME				<!-- 사업자상호명 -->
+						   		 ,BSNMPHONE				<!-- 사업자핸드폰번호 -->
+						   		 ,BSNMMAIL				<!-- 사업자이메일 -->
+						   		 ,BSNMRDATE				<!-- 사업자정보공개 -->
+						   		 ,BSNMOPENINFO			<!-- 사업자등록일 -->
+						   		 ,BSNMNO				<!-- 사업자번호 -->						   		 
+						   		  )		
+					VALUES(  #bsnmid#
+							,#bsnmcompany#
+							,#bsnmpass#
+							,#bsnmname#
+							,#bsnmphone#
+							,#bsnmmail#
+							,#bsnmrdate#
+							,#bsnmopeninfo#
+							,#bsnmno# )
+	</insert>
+	
+	<!-- 사업자 회원 아이디 중복체크 -->
+	<select id="bsnmDAO.selectBsnmid" resultClass="int">
+		SELECT COUNT(*) FROM TBL_BSNM
+		WHERE BSNMID = #bsnmid#
+	</select>
+	
+<!-- 	<select id="memberDAO.selectMemberNickname" resultClass="int">
+		SELECT COUNT(*) FROM TBL_MEMBER
+			WHERE USERNICKNAME = #usernickname#
+	</select> -->
+	<!-- 자동회원가입 방지 이미지 -->
+	<select id="bsnmDAO.selectPreventName" resultClass="String">
+		SELECT IMGNAME FROM PREVENTIMG WHERE NO = #no#
+	</select>
+	
+	<!-- 사업자회원 로그인 -->
+	<select id="bsnmDAO.selectBsnmLogin" resultClass="String">
+		SELECT BSNMNAME FROM TBL_BSNM
+			WHERE BSNMID = #bsnmid# AND BSNMPASS = #bsnmpass#
+	</select>
+	
+	<!-- 사업자 상태 조회 -->
+	<select id="bsnmDAO.selectBsnmState" resultClass="String">	
+		SELECT BSNMSTATE FROM TBL_BSNM WHERE BSNMID = #bsnmid#		
+	</select>
+	
+	<!-- 사업자회원 디테일 -->
+	<select id="bsnmDAO.selectBsnmDetail" resultClass="bsnmVO">
+		SELECT  BSNMID											<!-- 사업자아이디 -->
+	   		 ,BSNMPASS											<!-- 사업자패스워드 -->
+	   		 ,BSNMNAME											<!-- 사업자이름 -->
+	   		 ,BSNMCOMPANY										<!-- 사업자상호명 -->
+   			 ,BSNMPHONE											<!-- 사업자핸드폰번호 -->
+	   		 ,BSNMMAIL											<!-- 사업자이메일 -->
+	   		 ,BSNMOPENINFO										<!-- 사업자정보공개 -->
+	   		 ,TO_CHAR(BSNMRDATE,'yyyy-mm-dd') BSNMRDATE			<!-- 사업자등록일 -->
+	   		 ,BSNMNO											<!-- 사업자번호 -->
+	   		 ,BSNMSTATE		
+		FROM TBL_BSNM
+		WHERE BSNMID = #bsnmid#
+	</select>
+	
+	<!-- 사업자 회원 아이디찾기 -->
+	<select id="bsnmDAO.selectBsnmidReturn" resultClass="String">
+		SELECT BSNMID FROM TBL_BSNM 
+		WHERE BSNMNO = #bsnmno#
+		  AND BSNMMAIL = #bsnmmail#
+	</select>
+	
+	<!-- 사업자 회원 존재여부 -->
+	<select id="bsnmDAO.selectBsnmExistCount" resultClass="int">
+		SELECT COUNT(*) FROM TBL_BSNM
+		WHERE BSNMID = #bsnmid#
+		  AND BSNMNO = #bsnmno#
+		  AND BSNMMAIL = #bsnmmail#
+	</select>
+	
+	<!-- 사업자 회원 정보 변경 -->
+	<update id="bsnmDAO.updateBsnm">
+		UPDATE TBL_BSNM SET
+			   	BSNMNAME =#bsnmname#
+			   ,BSNMCOMPANY = #bsnmcompany#
+			   ,BSNMMAIL = #bsnmmail#
+			   ,BSNMPHONE = #bsnmphone#
+			   ,BSNMOPENINFO = #bsnmopeninfo#
+			   ,BSNMRDATE =#bsnmrdate#
+			   ,BSNMNO = #bsnmno#
+		WHERE  BSNMID = #bsnmid#
+		  AND  BSNMPASS = #bsnmpass# 
+	</update>
+	<!-- 사업자 임시 비밀번호 변경 -->
+	<update id="bsnmDAO.updateBsnmPass">
+		UPDATE TBL_BSNM SET
+				BSNMPASS = #bsnmpass#
+		WHERE BSNMID = #bsnmid#
+	</update>
+	
+	<!-- 사업자 비밀번호 변경 -->
+	<update id="bsnmDAO.updateBsnmPassChange">
+		UPDATE TBL_BSNM SET 
+				BSNMPASS = #pass2# 
+		WHERE BSNMID = #bsnmid# 
+		  AND BSNMPASS = #pass1#
+	</update>
+	
+	<!-- 사업자 등록번호 중복 조회  -->
+	<select id="bsnmDAO.selectBsnmCheck" resultClass="int">
+		SELECT COUNT(*) FROM TBL_BSNM WHERE BSNMNO=#bsnmno#
+	</select>
+	
+</sqlMap>

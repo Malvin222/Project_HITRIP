@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BabSpace">
+
+	<typeAlias  alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
+	<typeAlias  alias="babVO" type="egov.hitrip.service.BabVO"/>
+
+	
+	<!-- 식당 리스트 SQL -->
+	<select id="babDAO.selectBabList" resultClass="egovMap">
+	SELECT b.* FROM (SELECT rownum rn, a.* FROM (SELECT addr,
+										contentid,
+										mapx,
+										mapy,
+										mlevel,
+										tel,
+										title,
+										firstimage,
+										areacode
+										 FROM bob WHERE 1=1 
+	<isNotNull property="searchCondition">
+	<isNotEmpty property="searchCondition"> AND $searchCondition$ LIKE '%$searchKeyword$%' </isNotEmpty>
+	</isNotNull>
+	 ) a ) b WHERE rn BETWEEN $firstIndex$ AND $lastIndex$ 
+	</select>
+	<!-- 식당 토탈 SQL -->
+	<select id="babDAO.selectBabTotal" resultClass="int">
+		SELECT COUNT(*) FROM bob WHERE 1 = 1 
+	<isNotNull property="searchCondition">
+	<isNotEmpty property="searchCondition"> AND $searchCondition$ LIKE '%$searchKeyword$%' </isNotEmpty>
+	</isNotNull>
+
+	</select>
+	
+	<!-- 식당 디테일SQL -->
+	<select id="babDAO.selectBabDetail" resultClass="babVO">
+		SELECT contentid,title,addr,mapx,mapy,mlevel,tel,firstimage FROM bob WHERE contentid=#contentid#
+	</select>
+	
+	<!-- 홈화면 랜덤용 -->
+	<select id="babDAO.selectBabHomeList" resultClass="babVO">
+		SELECT rn, title, contentid, firstimage
+			FROM (
+			    SELECT rownum rn, a.*
+			    FROM (
+			        SELECT title, contentid, firstimage
+			        FROM BOB
+			        ORDER BY DBMS_RANDOM.VALUE
+			    ) a
+			) b
+		WHERE 30 >= rn
+	</select>
+	
+</sqlMap>

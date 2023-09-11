@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="MemberSpace">
+
+	<typeAlias  alias="egovMap" type="org.egovframe.rte.psl.dataaccess.util.EgovMap"/>
+	<typeAlias  alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
+	<typeAlias  alias="memberVO" type="egov.hitrip.service.MemberVO"/>
+
+	<insert id="memberDAO.insertMember">
+		INSERT INTO TBL_MEMBER (  USERID			<!-- 유저아이디 -->
+						   		 ,USERPASS			<!-- 유저패스워드 -->
+						   		 ,USERNAME			<!-- 유저이름 -->
+						   		 ,USERNICKNAME		<!-- 유저닉네임 -->
+						   		 ,USERBIRTH			<!-- 유저생일 -->
+						   		 ,USERAGE			<!-- 유저나이 -->
+						   		 ,USERPHONE			<!-- 유저핸드폰번호 -->
+						   		 ,USEREMAIL			<!-- 유저이메일 -->
+						   		 ,USEROPENINFO		<!-- 유저정보공개 -->
+						   		 ,USERGENDER )		<!-- 유저성별 -->		
+					VALUES(  #userid#
+							,#userpass#
+							,#username#
+							,#usernickname#
+							,#userbirth#
+							,#userage#
+							,#userphone#
+							,#useremail#
+							,#useropeninfo#
+							,#usergender# )
+	</insert>
+	
+	<select id="memberDAO.selectMemberUserid" resultClass="int">
+		SELECT COUNT(*) FROM TBL_MEMBER
+		WHERE USERID = #userid#
+	</select>
+	
+	<select id="memberDAO.selectMemberNickname" resultClass="int">
+		SELECT COUNT(*) FROM TBL_MEMBER
+			WHERE USERID != #userid#
+			  AND USERNICKNAME = #usernickname#
+	</select>
+	
+	<select id="memberDAO.selectPreventName" resultClass="String">
+		SELECT IMGNAME FROM PREVENTIMG WHERE NO = #no#
+	</select>
+	
+	<select id="memberDAO.selectMemberLogin" resultClass="String">
+		SELECT USERNAME FROM TBL_MEMBER
+			WHERE USERID = #userid# AND USERPASS = #userpass#
+	</select>
+	
+	<select id="memberDAO.selectMemberState" resultClass="String">	
+		SELECT USERSTATE FROM TBL_MEMBER WHERE USERID = #userid#		
+	</select>
+	
+	<select id="memberDAO.selectMemberDetail" resultClass="memberVO">
+		SELECT USERID
+	   		  ,USERPASS
+	   		  ,USERNAME
+	   		  ,USERNICKNAME
+   		      ,TO_CHAR(USERBIRTH,'yyyy-mm-dd') USERBIRTH
+	   		  ,USERAGE
+   		      ,USERPHONE
+   		      ,USEREMAIL
+	   		  ,USEROPENINFO
+	   		  ,USERGENDER		
+		FROM TBL_MEMBER
+		WHERE USERID = #userid#
+	</select>
+	
+	<select id="memberDAO.selectMemberUseridReturn" resultClass="String">
+		SELECT USERID FROM TBL_MEMBER 
+		WHERE USERNICKNAME = #usernickname#
+		  AND USEREMAIL = #useremail#
+	</select>
+	
+	<select id="memberDAO.selectMemberExistCount" resultClass="int">
+		SELECT COUNT(*) FROM TBL_MEMBER
+		WHERE USERID = #userid#
+		  AND USERNICKNAME = #usernickname#
+		  AND USEREMAIL = #useremail#
+	</select>
+	
+	<select id="memberDAO.selectMemberCancelChk" resultClass="int">
+		SELECT COUNT(*) FROM TBL_MEMBER
+		WHERE USERID = #userid#
+		  AND USERPASS = #pass#
+		  AND USERSTATE = #state#
+	</select>
+	
+	<update id="memberDAO.updateMember">
+		UPDATE TBL_MEMBER SET
+				USERNICKNAME = #usernickname#
+			   ,USEREMAIL = #useremail#
+			   ,USERPHONE = #userphone#
+			   ,USERBIRTH = #userbirth#
+			   ,USEROPENINFO = #useropeninfo#
+		WHERE  USERID = #userid#
+		  AND  USERPASS = #userpass# 
+	</update>
+	
+	<update id="memberDAO.updateMemberPass">
+		UPDATE TBL_MEMBER SET
+				USERPASS = #userpass#
+		WHERE USERID = #userid#
+	</update>
+	
+	<update id="memberDAO.updateMemberPassChange">
+		UPDATE TBL_MEMBER SET 
+				USERPASS = #pass2# 
+		WHERE USERID = #userid# 
+		  AND USERPASS = #pass1#
+	</update>
+	
+	<update id="memberDAO.updateMemberStateUpdate">
+		UPDATE TBL_MEMBER SET
+				USERSTATE = #state#
+		WHERE USERID = #userid#
+	</update>
+	
+</sqlMap>
