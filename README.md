@@ -88,22 +88,22 @@
    ### 🛠트러블 슈팅 (해결을 누르면 해당 코드로 이동됩니다.)
    - 후기작성시 후기가 등록된 패키지여행 선택시 초기화 오류
      
-     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/2154e037-d48a-4f61-8ff9-4fbfc695a8bf" width="200">
+     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/a6926ce0-ecfa-4d72-8cb9-7a72eec4b379" width="200">
     
      - 원인 :
        패키지 제목의 input 상자의 id값을 packtitle_area_input으로 설정하고
        jquery를 이용하여 패키지제목의 value값에 공백을 입력하여 select 상자를 초기화 시키려 했지만
        이러한 방식으로 화면에 출력되는 select 상자는 초기화 되지 않는것을 확인
        
-       <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/1c4798b4-89d6-4cf0-a98a-49773c16ae7c" width="300">
+       <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/1619be5e-83b6-4a7a-a46d-a6d82d18c605" width="300">
        
      - [해결](https://github.com/Malvin222/Project_HITRIP/blob/4c27180659330a559bf25e4329bc2ca1a3ce9d30/src/main/webapp/packreview/packReviewWrite.jsp#L191-L200) :
         패키지제목 select상자가 초기화 되게 jqury에서 $(“#pack”).val(“”) 코드로 수정하고
         옵션 “패키지를 선택해주세요”의 속성으로 value=“” 와 기본값으로 선택되게 disabled selected 를 추가
         후기가 작성된 패키지를 선택하면 select상자가 초기화 되며 “패키지를 선택해주세요” 가 됨을 확인
 
-        <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/aedeee7b-a89f-4b42-9be7-2e85f11a8f32" width="300">
-        <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/3cf864b5-21fd-44f6-af34-0e0cba550f46" width="300">
+        <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/30422c58-fcfa-483f-9ecd-9c05115769d5" width="300">
+        <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/2ab8cd06-9302-4477-966e-224523a0b22e" width="300">
 
 
 
