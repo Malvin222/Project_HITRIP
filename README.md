@@ -25,9 +25,37 @@
   * 기능 글씨 클릭시 해당 코드로 연결됩니다.
   * 기능 이미지 클릭시 크게 출력됩니다.
   <table>
+    <tr>
+    <th>
+     <a href="https://github.com/Malvin222/Project_HITRIP/blob/fddbc64a628c7fde00452c14c79fb6e1eae0104f/src/main/java/egov/hitrip/web/PackReviewController.java#L211C3-L279C5"> 게시판 및 댓글 CRUD
+    </th>
+    <th>
+     <a href="https://github.com/Malvin222/Project_HITRIP/blob/fddbc64a628c7fde00452c14c79fb6e1eae0104f/src/main/java/egov/hitrip/web/BsnmController.java#L65-L116">사업자 회원가입 및 로그인</a>
+    </th>
+    <th>
+     <a href="https://github.com/Malvin222/Project_HITRIP/blob/fddbc64a628c7fde00452c14c79fb6e1eae0104f/src/main/webapp/bab/babDetail.jsp#L101-L141"> MapAPI
+    </th>
+    <th>
+      <a href="https://github.com/Malvin222/Project_HITRIP/blob/fddbc64a628c7fde00452c14c79fb6e1eae0104f/src/main/java/egov/hitrip/web/PackReviewController.java#L138-L185"> 사진업로드
+    </th>
+   </tr>
+   <tr>
+     <td>
+      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/3b985459-73b6-4fce-b5a4-9fd83907dff4" width="250" height="250">
+     </td>
+     <td>
+      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/0e1e01aa-41fc-4d93-995a-2d922f161a83" width="200">
+     </td>
+     <td>
+      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/52b262dc-f464-4bef-90c0-157ba124943d" width="200">
+     </td>
+     <td>
+      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/123f23fc-712a-44b3-b3e6-0f3ca1428be2" width="200">
+     </td>
+   </tr>
    <tr>
     <th>
-     <a href="https://github.com/Malvin222/Project_HITRIP/blob/bc1ecf7efa27e3ad0501f0bac624378d7c9a0c1a/src/main/webapp/trip/tripList.jsp#L93-L233"> 국내 여행지
+     <a href="https://github.com/Malvin222/Project_HITRIP/blob/bc1ecf7efa27e3ad0501f0bac624378d7c9a0c1a/src/main/webapp/trip/tripList.jsp#L93-L233"> 국내 여행지 및 국내 맛집
     </th>
     <th>
      <a href="https://github.com/Malvin222/Project_HITRIP/blob/48e4e2919751bf391cd7f6f6081b6e6d22117d15/src/main/java/egov/hitrip/web/PackController.java#L249C1-L270">댓글</a>
@@ -54,8 +82,6 @@
     </td>
    </tr>
   </table>
-
-   * 참여한 패키지 후기 연동 후 글작성
    
 
 
