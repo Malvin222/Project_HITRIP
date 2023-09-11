@@ -27,24 +27,24 @@
   <table>
    <tr>
     <th>
+     <a href="https://github.com/Malvin222/Project_HITRIP/blob/bc1ecf7efa27e3ad0501f0bac624378d7c9a0c1a/src/main/webapp/trip/tripList.jsp#L93-L233"> 국내 여행지
+    </th>
+    <th>
      <a href="https://github.com/Malvin222/Project_HITRIP/blob/48e4e2919751bf391cd7f6f6081b6e6d22117d15/src/main/java/egov/hitrip/web/PackController.java#L249C1-L270">댓글</a>
     </th>
     <th>
      <a href="https://github.com/Malvin222/Project_HITRIP/blob/ec9875e2f63984b958f14f5e025e91d4eef99c8b/src/main/java/egov/hitrip/web/PackController.java#L310-L346"> 추천
     </th>
     <th>
-     <a href="https://github.com/Malvin222/Project_HITRIP/blob/ec9875e2f63984b958f14f5e025e91d4eef99c8b/src/main/java/egov/hitrip/web/PackController.java#L310-L346"> 패키지참여
-    </th>
-    <th>
-      <a href="https://github.com/Malvin222/Project_HITRIP/blob/ec9875e2f63984b958f14f5e025e91d4eef99c8b/src/main/java/egov/hitrip/web/PackController.java#L310-L346"> 패키지참여 연동
+      <a href="https://github.com/Malvin222/Project_HITRIP/blob/bc1ecf7efa27e3ad0501f0bac624378d7c9a0c1a/src/main/java/egov/hitrip/web/PackReviewController.java#L38C1-L51C3"> 패키지참여 연동
     </th>
    </tr>
    <tr>
     <td>
-     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/84959ee1-1a26-4e75-b078-260a7013bfe7" width="200">
+     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/bb1d9270-5501-4404-a2e4-11ee6153c45e" width="250" height="250">
     </td>
     <td>
-     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/2d52994d-73cb-4a3d-acfe-0987538d7ea0" width="200">
+     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/84959ee1-1a26-4e75-b078-260a7013bfe7" width="200">
     </td>
     <td>
      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/2d52994d-73cb-4a3d-acfe-0987538d7ea0" width="200">
