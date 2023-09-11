@@ -2,6 +2,8 @@
  ## ✈Project_HITRIP
  <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/fa66fd79-7d18-4626-97d4-1ba96adc029f" width="300">
 
+<br>
+
  * 개발기간
    - 2023-08-01 ~ 2023-09-01
  * 설계 배경
