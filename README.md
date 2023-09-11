@@ -15,7 +15,7 @@
    - 국내여행지,국내 식당 정보제공
    - 패키지 여행 정보 제공
   
-  ## 개발환경
+  ## 🔧개발환경
   * Front-End : HTML5, CSS3, JS, jQuery
   * Back-End : Java, ibatis, eGovFrame
   * Database : Oracle
@@ -23,7 +23,7 @@
   * API : TourAPI, kakaomap MapsAPI
   * Tool : Eclipse, GitHub
 
-  ## 담당 핵심 기능
+  ## ⚙담당 핵심 기능
   * 기능 글씨 클릭시 해당 코드로 연결됩니다.
   * 기능 이미지 클릭시 크게 출력됩니다.
   <table>
@@ -85,8 +85,28 @@
    </tr>
   </table>
 
-   ## 트러블 슈팅
-   
+   ## 🛠트러블 슈팅
+   * 후기가 등록된 패키지여행 선택시 초기화 오류
+     
+     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/2154e037-d48a-4f61-8ff9-4fbfc695a8bf" width="200">
+    
+     - 원인 :
+       패키지 제목의 input 상자의 id값을 packtitle_area_input으로 설정하고
+       jquery를 이용하여 패키지제목의 value값에 공백을 입력하여 select 상자를 초기화 시키려 했지만
+       이러한 방식으로 화면에 출력되는 select 상자는 초기화 되지 않는것을 확인
+       
+       <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/1c4798b4-89d6-4cf0-a98a-49773c16ae7c" width="300">
+       
+     - 해결 :
+        패키지제목 select상자가 초기화 되게 jqury에서 $(“#pack”).val(“”) 코드로 수정하고
+        옵션 “패키지를 선택해주세요”의 속성으로 value=“” 와 기본값으로 선택되게 disabled selected 를 추가
+        후기가 작성된 패키지를 선택하면 select상자가 초기화 되며 “패키지를 선택해주세요” 가 됨을 확인
+       
+        <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/3cf864b5-21fd-44f6-af34-0e0cba550f46" width="300">
+
+
+
+
    ## 🥇프로젝트 포트폴리오 발표회 최우수상 수상
 
   <p align="center"><img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/6cbfbeb6-5620-4416-ac66-03537b308a25" width="350"></p>
