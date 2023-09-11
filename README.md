@@ -21,11 +21,40 @@
   * API : TourAPI, kakaomap MapsAPI
   * Tool : Eclipse, GitHub
 
-  ## 맡은기능
-   * 댓글
-     https://github.com/Malvin222/Project_HITRIP/blob/48e4e2919751bf391cd7f6f6081b6e6d22117d15/src/main/java/egov/hitrip/web/PackController.java#L249C1-L266C5
-   * 추천
-   * 패키지 참여
+  ## 담당 핵심 기능
+  * 기능 글씨 클릭시 해당 코드로 연결됩니다.
+  * 기능 이미지 클릭시 크게 출력됩니다.
+  <table>
+   <tr>
+    <th>
+     <a href="https://github.com/Malvin222/Project_HITRIP/blob/48e4e2919751bf391cd7f6f6081b6e6d22117d15/src/main/java/egov/hitrip/web/PackController.java#L249C1-L270">댓글</a>
+    </th>
+    <th>
+     <a href="https://github.com/Malvin222/Project_HITRIP/blob/ec9875e2f63984b958f14f5e025e91d4eef99c8b/src/main/java/egov/hitrip/web/PackController.java#L310-L346"> 추천
+    </th>
+    <th>
+     <a href="https://github.com/Malvin222/Project_HITRIP/blob/ec9875e2f63984b958f14f5e025e91d4eef99c8b/src/main/java/egov/hitrip/web/PackController.java#L310-L346"> 패키지참여
+    </th>
+    <th>
+      <a href="https://github.com/Malvin222/Project_HITRIP/blob/ec9875e2f63984b958f14f5e025e91d4eef99c8b/src/main/java/egov/hitrip/web/PackController.java#L310-L346"> 패키지참여 연동
+    </th>
+   </tr>
+   <tr>
+    <td>
+     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/84959ee1-1a26-4e75-b078-260a7013bfe7" width="200">
+    </td>
+    <td>
+     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/2d52994d-73cb-4a3d-acfe-0987538d7ea0" width="200">
+    </td>
+    <td>
+     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/2d52994d-73cb-4a3d-acfe-0987538d7ea0" width="200">
+    </td>
+    <td>
+     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/0f6b2a21-d874-48b4-83bf-b38783cdea4f" width="200">
+    </td>
+   </tr>
+  </table>
+
    * 참여한 패키지 후기 연동 후 글작성
    
 
