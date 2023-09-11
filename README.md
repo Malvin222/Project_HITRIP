@@ -1,6 +1,7 @@
-<img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/fa66fd79-7d18-4626-97d4-1ba96adc029f" width="300">
 
- ## Project_HITRIP
+ ## ✈Project_HITRIP
+ <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/fa66fd79-7d18-4626-97d4-1ba96adc029f" width="300">
+
  * 개발기간
    - 2023-08-01 ~ 2023-09-01
  * 설계 배경
@@ -87,9 +88,9 @@
 
    ## 트러블 슈팅
    
-   ## 하이미디어 학원 구리점 최우수상 수상
-  
-  <p align="center"><img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/6cbfbeb6-5620-4416-ac66-03537b308a25" width="500"></p>
+   ## 🥇프로젝트 포트폴리오 발표회 최우수상 수상
+
+  <p align="center"><img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/6cbfbeb6-5620-4416-ac66-03537b308a25" width="350"></p>
 
 
 
