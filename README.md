@@ -49,7 +49,7 @@
       <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/f5fec20f-8d70-46dd-8b9e-208c30ff7786" width="200">
      </td>
      <td>
-      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/52b262dc-f464-4bef-90c0-157ba124943d" width="200">
+      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/3ae61f8b-12a6-405d-84fb-2d8ef776d834" width="200">
      </td>
      <td>
       <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/123f23fc-712a-44b3-b3e6-0f3ca1428be2" width="200">
