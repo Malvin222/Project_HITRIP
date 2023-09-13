@@ -43,10 +43,10 @@
    </tr>
    <tr>
      <td>
-      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/3b985459-73b6-4fce-b5a4-9fd83907dff4" width="250" height="250">
+      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/fa8cc54c-87a8-4451-9cd4-89c548971d18" width="250" height="250">
      </td>
      <td>
-      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/0e1e01aa-41fc-4d93-995a-2d922f161a83" width="200">
+      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/f5fec20f-8d70-46dd-8b9e-208c30ff7786" width="200">
      </td>
      <td>
       <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/52b262dc-f464-4bef-90c0-157ba124943d" width="200">
