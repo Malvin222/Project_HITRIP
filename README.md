@@ -1,6 +1,6 @@
 
  ## ✈Project_HITRIP
- <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/fa66fd79-7d18-4626-97d4-1ba96adc029f" width="300">
+ <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/6b16103e-ed41-4b14-919c-e08cd448c75e" width="300">
 
 <br>
 
@@ -29,10 +29,10 @@
   <table>
     <tr>
     <th>
-     <a href="https://github.com/Malvin222/Project_HITRIP/blob/fddbc64a628c7fde00452c14c79fb6e1eae0104f/src/main/java/egov/hitrip/web/PackReviewController.java#L211C3-L279C5"> 게시판 및 댓글 CRUD
+     <a href="https://github.com/Malvin222/Project_HITRIP/blob/fddbc64a628c7fde00452c14c79fb6e1eae0104f/src/main/java/egov/hitrip/web/PackReviewController.java#L211C3-L279C5"> 게시판 CRUD .gif
     </th>
     <th>
-     <a href="https://github.com/Malvin222/Project_HITRIP/blob/fddbc64a628c7fde00452c14c79fb6e1eae0104f/src/main/java/egov/hitrip/web/BsnmController.java#L65-L116">사업자 회원가입 및 로그인</a>
+     <a href="https://github.com/Malvin222/Project_HITRIP/blob/fddbc64a628c7fde00452c14c79fb6e1eae0104f/src/main/java/egov/hitrip/web/BsnmController.java#L65-L116">사업자 회원가입 및 로그인 .gif</a>
     </th>
     <th>
      <a href="https://github.com/Malvin222/Project_HITRIP/blob/fddbc64a628c7fde00452c14c79fb6e1eae0104f/src/main/webapp/bab/babDetail.jsp#L101-L141"> MapAPI
@@ -43,16 +43,16 @@
    </tr>
    <tr>
      <td>
-      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/fa8cc54c-87a8-4451-9cd4-89c548971d18" width="250" height="250">
+      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/52c6633f-6ad0-4be2-9059-c10ed150fda0" width="250" height="300">
      </td>
      <td>
-      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/f5fec20f-8d70-46dd-8b9e-208c30ff7786" width="200">
+      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/61b758e8-cd6b-4568-8414-2ca830c26b58" width="200" height="300">
      </td>
      <td>
-      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/3ae61f8b-12a6-405d-84fb-2d8ef776d834" width="200">
+      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/3ae61f8b-12a6-405d-84fb-2d8ef776d834" width="200" height="300">
      </td>
      <td>
-      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/123f23fc-712a-44b3-b3e6-0f3ca1428be2" width="200">
+      <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/eb72c466-f951-4209-8c3c-0d2731319c14" width="200">
      </td>
    </tr>
    <tr>
@@ -60,27 +60,27 @@
      <a href="https://github.com/Malvin222/Project_HITRIP/blob/bc1ecf7efa27e3ad0501f0bac624378d7c9a0c1a/src/main/webapp/trip/tripList.jsp#L93-L233"> 국내 여행지 및 국내 맛집
     </th>
     <th>
-     <a href="https://github.com/Malvin222/Project_HITRIP/blob/48e4e2919751bf391cd7f6f6081b6e6d22117d15/src/main/java/egov/hitrip/web/PackController.java#L249C1-L270">댓글</a>
+     <a href="https://github.com/Malvin222/Project_HITRIP/blob/48e4e2919751bf391cd7f6f6081b6e6d22117d15/src/main/java/egov/hitrip/web/PackController.java#L249C1-L270">댓글 CRUD</a>
     </th>
     <th>
-     <a href="https://github.com/Malvin222/Project_HITRIP/blob/ec9875e2f63984b958f14f5e025e91d4eef99c8b/src/main/java/egov/hitrip/web/PackController.java#L310-L346"> 추천
+     <a href="https://github.com/Malvin222/Project_HITRIP/blob/ec9875e2f63984b958f14f5e025e91d4eef99c8b/src/main/java/egov/hitrip/web/PackController.java#L310-L346"> 추천 .gif
     </th>
     <th>
-      <a href="https://github.com/Malvin222/Project_HITRIP/blob/bc1ecf7efa27e3ad0501f0bac624378d7c9a0c1a/src/main/java/egov/hitrip/web/PackReviewController.java#L38C1-L51C3"> 패키지참여 연동
+      <a href="https://github.com/Malvin222/Project_HITRIP/blob/bc1ecf7efa27e3ad0501f0bac624378d7c9a0c1a/src/main/java/egov/hitrip/web/PackReviewController.java#L38C1-L51C3"> 패키지참여 연동 .gif
     </th>
    </tr>
    <tr>
     <td>
-     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/bb1d9270-5501-4404-a2e4-11ee6153c45e" width="250" height="250">
+     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/e774fe36-1727-4edb-9ba1-3c7d3b40ea42" width="250" height="300">
     </td>
     <td>
-     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/84959ee1-1a26-4e75-b078-260a7013bfe7" width="200">
+     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/2bf4898a-7ea6-4816-9bfc-cb08aef33634" width="200" height="300">
     </td>
     <td>
-     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/2d52994d-73cb-4a3d-acfe-0987538d7ea0" width="200">
+     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/f01dd117-dfee-4262-be90-359f07a4aa73" width="200" height="300">
     </td>
     <td>
-     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/0f6b2a21-d874-48b4-83bf-b38783cdea4f" width="200">
+     <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/c2959b35-28ab-4285-be3e-b1268fb046bf" width="200" height="300">
     </td>
    </tr>
   </table>
@@ -110,7 +110,9 @@
 
    ### 🥇프로젝트 포트폴리오 발표회 최우수상 수상
 
-  <p align="center"><img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/6cbfbeb6-5620-4416-ac66-03537b308a25" width="350"></p>
+  <p align="center">
+  <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/923f9c2d-8b93-41df-bb11-4f98c990b262" width="300">
+  </p>
 
 
 
