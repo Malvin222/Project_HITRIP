@@ -98,7 +98,7 @@
        <img src="https://github.com/Malvin222/Project_HITRIP/assets/127707299/1619be5e-83b6-4a7a-a46d-a6d82d18c605" width="300">
        
      - [해결](https://github.com/Malvin222/Project_HITRIP/blob/4c27180659330a559bf25e4329bc2ca1a3ce9d30/src/main/webapp/packreview/packReviewWrite.jsp#L191-L200) :
-        패키지제목 select상자가 초기화 되게 jqury에서 $(“#pack”).val(“”) 코드로 수정하고
+        패키지제목 select상자가 초기화 되게 jquery에서 $(“#pack”).val(“”) 코드로 수정하고
         옵션 “패키지를 선택해주세요”의 속성으로 value=“” 와 기본값으로 선택되게 disabled selected 를 추가
         후기가 작성된 패키지를 선택하면 select상자가 초기화 되며 “패키지를 선택해주세요” 가 됨을 확인
 
